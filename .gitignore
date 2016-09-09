@@ -1,0 +1,9 @@
+/.conoharant
+/.env
+/id_rsa
+/id_rsa.pub
+/passphrase.txt
+/ssh-config
+/ssh-known_hosts
+/secret/keys/default
+/vendor/bundle

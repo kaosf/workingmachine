@@ -1,0 +1,6 @@
+os: arch
+ram: g-1gb
+# ram: g-2gb
+# ram: g-4gb
+# ram: g-8gb
+tagprefix: workingmachine

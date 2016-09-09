@@ -1,0 +1,49 @@
+= My working machine provisioning
+
+== Initialization
+
+[source, sh]
+----
+alias be=bundle exec
+
+bundle install
+
+# Create top secret "./secret/keys/default" file.
+be itamae-secrets newkey --base=./secret --method=aes-random
+
+be itamae-secrets set --base=./secret cryptography_passphrase xxxxxxxxxxxxxxxxxx
+
+alias echo-passphrase='bundle exec itamae-secrets get --base=./secret cryptography_passphrase'
+
+encrypt () {
+  be reversible_cryptography encrypt --password=`echo-passphrase` --src-file=${1} --dst-file=${1}.encrypted
+}
+
+encrypt id_rsa
+encrypt id_rsa.pub
+encrypt ssh-config
+encrypt ssh-known_hosts
+----
+
+== Provisioning
+
+[source, sh]
+----
+be conoharant up
+be itamae ssh --host `be conoharant ipaddress | tail -1` -u root recipe.rb
+----
+
+== Note
+
+[source, sh]
+----
+be reversible_cryptography edit --password=`echo-passphrase` id_rsa.encrypted
+be reversible_cryptography edit --password=`echo-passphrase` id_rsa.pub.encrypted
+be reversible_cryptography edit --password=`echo-passphrase` ssh-known_hosts.encrypted
+be reversible_cryptography edit --password=`echo-passphrase` ssh-config.encrypted
+
+bundle exec reversible_cryptography edit --password=`bundle exec itamae-secrets get --base=./secret cryptography_passphrase` id_rsa.encrypted
+bundle exec reversible_cryptography edit --password=`bundle exec itamae-secrets get --base=./secret cryptography_passphrase` id_rsa.pub.encrypted
+bundle exec reversible_cryptography edit --password=`bundle exec itamae-secrets get --base=./secret cryptography_passphrase` ssh-known_hosts.encrypted
+bundle exec reversible_cryptography edit --password=`bundle exec itamae-secrets get --base=./secret cryptography_passphrase` ssh-config.encrypted
+----
