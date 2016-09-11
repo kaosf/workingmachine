@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ansi (1.5.0)
-    conoha (0.9.4)
+    conoha (0.9.5)
     hashie (3.4.4)
     itamae (1.9.9)
       ansi
@@ -34,7 +34,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  conoha (= 0.9.4)
+  conoha (= 0.9.5)
   itamae (= 1.9.9)
   itamae-plugin-resource-encrypted_remote_file (= 0.0.2)
   itamae-secrets (= 0.1.0)
